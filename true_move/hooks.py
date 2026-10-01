@@ -262,3 +262,17 @@ app_license = "mit"
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
+
+# Fixtures
+# --------
+# Кастомизации CRM-доктайпов (Customize Form), привязанные к модулю "True Move",
+# выгружаются в репозиторий командой `bench --site crm.localhost export-fixtures --app true_move`
+# и применяются на других сайтах при `bench migrate`.
+fixtures = [
+	{"dt": "Custom Field", "filters": [["module", "=", "True Move"]]},
+	{"dt": "Property Setter", "filters": [["module", "=", "True Move"]]},
+	# Настройки Vue-интерфейса CRM (/crm), которые хранятся в БД:
+	# раскладка полей (Quick Entry, Side Panel, Data Fields...) и свои JS-скрипты форм/списков
+	"CRM Fields Layout",
+	{"dt": "CRM Form Script", "filters": [["is_standard", "=", 0]]},
+]
