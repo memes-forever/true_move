@@ -275,4 +275,18 @@ fixtures = [
 	# раскладка полей (Quick Entry, Side Panel, Data Fields...) и свои JS-скрипты форм/списков
 	"CRM Fields Layout",
 	{"dt": "CRM Form Script", "filters": [["is_standard", "=", 0]]},
+	{"dt": "Role", "filters": [["name", "=", "Грузчик"]]},
 ]
+
+# Грузчик видит только свои контракты
+permission_query_conditions = {
+	"Contract": "true_move.permissions.contract_query_conditions",
+}
+has_permission = {
+	"Contract": "true_move.permissions.contract_has_permission",
+}
+
+# После входа грузчик попадает на мобильную страницу своих контрактов
+role_home_page = {
+	"Грузчик": "mover",
+}

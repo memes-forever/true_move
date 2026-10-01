@@ -1,0 +1,73 @@
+{% extends "templates/web.html" %}
+
+{% macro address_block(label, address) %}
+<div class="tm-label">{{ label }}</div>
+<div>{{ address }}</div>
+<a class="tm-btn" target="_blank" rel="noopener"
+	href="https://www.google.com/maps/search/?api=1&query={{ address | urlencode }}">Открыть на карте</a>
+{% endmacro %}
+
+{% block page_content %}
+{% include "templates/includes/mover_styles.html" %}
+<div class="tm">
+	<p><a href="/mover">← Все контракты</a></p>
+
+	<div class="tm-row">
+		<h1 class="mb-0">{{ doc.name }}</h1>
+		{% with status = doc.status %}{% include "templates/includes/mover_status.html" %}{% endwith %}
+	</div>
+
+	<div class="tm-card">
+		<div class="tm-label">Дата и время</div>
+		<div class="tm-date">{{ move_date_display }}</div>
+
+		<div class="tm-label">Клиент</div>
+		<div>{{ doc.customer_name or "—" }}</div>
+		{% if doc.customer_phone %}
+			<a class="tm-btn" href="tel:{{ doc.customer_phone }}">Позвонить {{ doc.customer_phone }}</a>
+		{% endif %}
+
+		<div class="tm-label">Стоимость</div>
+		<div>{{ amount_display }}</div>
+	</div>
+
+	<div class="tm-card">
+		{{ address_block("Откуда", doc.from_address) }}
+		{{ address_block("Куда", doc.to_address) }}
+	</div>
+
+	<h2>Предметы ({{ doc.items | length }})</h2>
+	<div class="tm-card">
+		{% if doc.items %}
+		<table class="tm-items">
+			{% for item in doc.items %}
+			<tr>
+				<td>
+					{{ item.item_name }}{% if item.fragile %} <span class="tm-badge s-cancelled">хрупкое</span>{% endif %}
+					{% if item.notes %}<div class="tm-muted">{{ item.notes }}</div>{% endif %}
+				</td>
+				<td class="qty">× {{ item.qty }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% else %}
+		<span class="tm-muted">Перечень не заполнен</span>
+		{% endif %}
+	</div>
+
+	{% if doc.notes %}
+	<h2>Комментарий</h2>
+	<div class="tm-card">{{ doc.notes }}</div>
+	{% endif %}
+
+	{% if manager %}
+	<h2>Менеджер</h2>
+	<div class="tm-card">
+		<div>{{ manager.full_name }}</div>
+		{% if manager.mobile_no %}
+			<a class="tm-btn" href="tel:{{ manager.mobile_no }}">Позвонить {{ manager.mobile_no }}</a>
+		{% endif %}
+	</div>
+	{% endif %}
+</div>
+{% endblock %}

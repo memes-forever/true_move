@@ -1,0 +1,30 @@
+{% extends "templates/web.html" %}
+
+{% macro contract_card(c) %}
+<a class="tm-card" href="/mover/contract?name={{ c.name | urlencode }}">
+	<div class="tm-row">
+		<span class="tm-date">{{ c.move_date_display }}</span>
+		{% with status = c.status %}{% include "templates/includes/mover_status.html" %}{% endwith %}
+	</div>
+	<div>{{ c.customer_name or c.name }}</div>
+	<div class="tm-muted">{{ c.from_address }} → {{ c.to_address }}</div>
+</a>
+{% endmacro %}
+
+{% block page_content %}
+{% include "templates/includes/mover_styles.html" %}
+<div class="tm">
+	<h1>Мои контракты</h1>
+
+	{% for c in active %}
+		{{ contract_card(c) }}
+	{% else %}
+		<p class="tm-muted">Назначенных контрактов нет.</p>
+	{% endfor %}
+
+	{% if done %}
+		<h2>Выполненные</h2>
+		{% for c in done %}{{ contract_card(c) }}{% endfor %}
+	{% endif %}
+</div>
+{% endblock %}

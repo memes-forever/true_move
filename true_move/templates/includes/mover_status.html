@@ -1,0 +1,7 @@
+{%- set status_class = {
+	"Подтверждён": "s-confirmed",
+	"В работе": "s-progress",
+	"Выполнен": "s-done",
+	"Отменён": "s-cancelled",
+}.get(status, "") -%}
+<span class="tm-badge {{ status_class }}">{{ status }}</span>
