@@ -283,3 +283,11 @@ fixtures = [
 role_home_page = {
 	"Грузчик": "moves",
 }
+
+# Роль «Грузчик» у пользователя ⇒ запись в справочнике Mover (её и выбирают в сделке)
+doc_events = {
+	"User": {
+		"on_update": "true_move.true_move.doctype.mover.mover.sync_mover_for_user",
+		"on_trash": "true_move.true_move.doctype.mover.mover.unlink_mover_from_user",
+	},
+}
