@@ -13,9 +13,9 @@ IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
 
-class IntegrationTestContract(IntegrationTestCase):
+class IntegrationTestMover(IntegrationTestCase):
 	"""
-	Integration tests for Contract.
+	Integration tests for Mover.
 	Use this class for testing interactions between multiple components.
 	"""
 

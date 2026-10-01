@@ -278,15 +278,8 @@ fixtures = [
 	{"dt": "Role", "filters": [["name", "=", "Грузчик"]]},
 ]
 
-# Грузчик видит только свои контракты
-permission_query_conditions = {
-	"Contract": "true_move.permissions.contract_query_conditions",
-}
-has_permission = {
-	"Contract": "true_move.permissions.contract_has_permission",
-}
-
-# После входа грузчик попадает на мобильную страницу своих контрактов
+# После входа грузчик попадает на мобильную страницу /moves со своими переездами (сделками).
+# Прав на CRM Deal у роли «Грузчик» нет: страница /moves сама отбирает только его сделки.
 role_home_page = {
-	"Грузчик": "mover",
+	"Грузчик": "moves",
 }

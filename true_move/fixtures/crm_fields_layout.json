@@ -12,8 +12,8 @@
   "docstatus": 0,
   "doctype": "CRM Fields Layout",
   "dt": "CRM Deal",
-  "layout": "[{\"name\": \"organization_section\", \"hidden\": true, \"editable\": false, \"columns\": [{\"name\": \"column_GpMP\", \"fields\": [\"organization\"]}, {\"name\": \"column_FPTn\", \"fields\": []}]}, {\"name\": \"organization_details_section\", \"editable\": false, \"columns\": [{\"name\": \"column_S3tQ\", \"fields\": [\"organization_name\", \"territory\"]}, {\"name\": \"column_KqV1\", \"fields\": [\"website\", \"annual_revenue\"]}, {\"name\": \"column_1r67\", \"fields\": [\"no_of_employees\", \"industry\"]}]}, {\"name\": \"contact_section\", \"hidden\": true, \"editable\": false, \"columns\": [{\"name\": \"column_CeXr\", \"fields\": [\"contact\"]}, {\"name\": \"column_yHbk\", \"fields\": []}]}, {\"name\": \"contact_details_section\", \"editable\": false, \"columns\": [{\"name\": \"column_ZTWr\", \"fields\": [\"salutation\", \"email\"]}, {\"name\": \"column_tabr\", \"fields\": [\"first_name\", \"mobile_no\"]}, {\"name\": \"column_Qjdx\", \"fields\": [\"last_name\", \"gender\"]}]}, {\"name\": \"deal_section\", \"columns\": [{\"name\": \"column_mdps\", \"fields\": [\"status\"]}, {\"name\": \"column_H40H\", \"fields\": [\"deal_owner\"]}]}]",
-  "modified": "2026-10-01 23:06:08.535917",
+  "layout": "[{\"name\": \"organization_section\", \"hidden\": true, \"editable\": false, \"columns\": [{\"name\": \"column_GpMP\", \"fields\": [\"organization\"]}, {\"name\": \"column_FPTn\", \"fields\": []}]}, {\"name\": \"organization_details_section\", \"editable\": false, \"columns\": [{\"name\": \"column_S3tQ\", \"fields\": [\"organization_name\", \"territory\"]}, {\"name\": \"column_KqV1\", \"fields\": [\"website\", \"annual_revenue\"]}, {\"name\": \"column_1r67\", \"fields\": [\"no_of_employees\", \"industry\"]}]}, {\"name\": \"contact_section\", \"hidden\": true, \"editable\": false, \"columns\": [{\"name\": \"column_CeXr\", \"fields\": [\"contact\"]}, {\"name\": \"column_yHbk\", \"fields\": []}]}, {\"name\": \"contact_details_section\", \"editable\": false, \"columns\": [{\"name\": \"column_ZTWr\", \"fields\": [\"salutation\", \"email\"]}, {\"name\": \"column_tabr\", \"fields\": [\"first_name\", \"mobile_no\"]}, {\"name\": \"column_Qjdx\", \"fields\": [\"last_name\", \"gender\"]}]}, {\"name\": \"deal_section\", \"columns\": [{\"name\": \"column_mdps\", \"fields\": [\"status\", \"custom_move_date\"]}, {\"name\": \"column_H40H\", \"fields\": [\"deal_owner\", \"custom_mover\"]}]}]",
+  "modified": "2026-10-01 15:32:56.703179",
   "name": "CRM Deal-Quick Entry",
   "type": "Quick Entry"
  },
@@ -84,8 +84,8 @@
   "docstatus": 0,
   "doctype": "CRM Fields Layout",
   "dt": "CRM Deal",
-  "layout": "[{\"label\": \"Contacts\", \"name\": \"contacts_section\", \"opened\": true, \"editable\": false, \"contacts\": []}, {\"name\": \"lost_reason_section\", \"label\": \"Lost Reason\", \"opened\": true, \"columns\": [{\"name\": \"lost_reason_column\", \"fields\": [\"lost_reason\", \"lost_notes\"]}]}, {\"label\": \"Organization Details\", \"name\": \"organization_section\", \"opened\": true, \"columns\": [{\"name\": \"column_na2Q\", \"fields\": [\"organization\", \"website\", \"territory\", \"annual_revenue\", \"closed_date\", \"probability\", \"next_step\", \"deal_owner\"]}]}]",
-  "modified": "2026-10-01 13:37:13.677983",
+  "layout": "[{\"label\": \"Contacts\", \"name\": \"contacts_section\", \"opened\": true, \"editable\": false, \"contacts\": []}, {\"label\": \"Переезд\", \"name\": \"move_section\", \"opened\": true, \"columns\": [{\"name\": \"move_column\", \"fields\": [\"custom_move_date\", \"custom_mover\", \"deal_value\"]}]}, {\"name\": \"lost_reason_section\", \"label\": \"Lost Reason\", \"opened\": true, \"columns\": [{\"name\": \"lost_reason_column\", \"fields\": [\"lost_reason\", \"lost_notes\"]}]}, {\"label\": \"Organization Details\", \"name\": \"organization_section\", \"opened\": true, \"columns\": [{\"name\": \"column_na2Q\", \"fields\": [\"organization\", \"website\", \"territory\", \"annual_revenue\", \"closed_date\", \"probability\", \"next_step\", \"deal_owner\"]}]}]",
+  "modified": "2026-10-01 15:32:56.702697",
   "name": "CRM Deal-Side Panel",
   "type": "Side Panel"
  },
@@ -120,8 +120,8 @@
   "docstatus": 0,
   "doctype": "CRM Fields Layout",
   "dt": "CRM Deal",
-  "layout": "[{\"name\":\"first_tab\",\"sections\":[{\"label\":\"Details\",\"name\":\"details_section\",\"opened\":true,\"columns\":[{\"name\":\"column_z9XL\",\"fields\":[\"organization\",\"annual_revenue\",\"next_step\"]},{\"name\":\"column_gM4w\",\"fields\":[\"website\",\"closed_date\",\"deal_owner\"]},{\"name\":\"column_gWmE\",\"fields\":[\"territory\",\"probability\"]}]},{\"label\":\"Products\",\"name\":\"section_jHhQ\",\"opened\":true,\"columns\":[{\"name\":\"column_xiNF\",\"fields\":[\"products\"]}],\"editingLabel\":false,\"hideLabel\":true},{\"label\":\"New Section\",\"name\":\"section_WNOQ\",\"opened\":true,\"columns\":[{\"name\":\"column_ziBW\",\"fields\":[\"total\"]},{\"label\":\"\",\"name\":\"column_wuwA\",\"fields\":[\"net_total\"]}],\"hideBorder\":true,\"hideLabel\":true}]}]",
-  "modified": "2026-10-01 23:06:08.547877",
+  "layout": "[{\"name\": \"first_tab\", \"sections\": [{\"label\": \"Адреса\", \"name\": \"move_address_section\", \"opened\": true, \"columns\": [{\"name\": \"move_from_column\", \"fields\": [\"custom_from_address\"]}, {\"name\": \"move_to_column\", \"fields\": [\"custom_to_address\"]}]}, {\"label\": \"Предметы для перевозки\", \"name\": \"move_items_section\", \"opened\": true, \"columns\": [{\"name\": \"move_items_column\", \"fields\": [\"custom_move_items\"]}]}, {\"label\": \"Details\", \"name\": \"details_section\", \"opened\": true, \"columns\": [{\"name\": \"column_z9XL\", \"fields\": [\"organization\", \"annual_revenue\", \"next_step\"]}, {\"name\": \"column_gM4w\", \"fields\": [\"website\", \"closed_date\", \"deal_owner\"]}, {\"name\": \"column_gWmE\", \"fields\": [\"territory\", \"probability\"]}]}, {\"label\": \"Products\", \"name\": \"section_jHhQ\", \"opened\": true, \"columns\": [{\"name\": \"column_xiNF\", \"fields\": [\"products\"]}], \"editingLabel\": false, \"hideLabel\": true}, {\"label\": \"New Section\", \"name\": \"section_WNOQ\", \"opened\": true, \"columns\": [{\"name\": \"column_ziBW\", \"fields\": [\"total\"]}, {\"label\": \"\", \"name\": \"column_wuwA\", \"fields\": [\"net_total\"]}], \"hideBorder\": true, \"hideLabel\": true}]}]",
+  "modified": "2026-10-01 15:32:56.700544",
   "name": "CRM Deal-Data Fields",
   "type": "Data Fields"
  }
