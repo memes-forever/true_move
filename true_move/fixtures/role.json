@@ -7,9 +7,9 @@
   "home_page": null,
   "is_custom": 0,
   "modified": "2026-10-01 15:12:16.223646",
-  "name": "Грузчик",
+  "name": "Mover",
   "restrict_to_domain": null,
-  "role_name": "Грузчик",
+  "role_name": "Mover",
   "two_factor_auth": 0
  }
 ]

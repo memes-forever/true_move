@@ -14,16 +14,16 @@
 {% block page_content %}
 {% include "templates/includes/mover_styles.html" %}
 <div class="tm">
-	<h1>Мои переезды</h1>
+	<h1>My Moves</h1>
 
 	{% for d in upcoming %}
 		{{ deal_card(d) }}
 	{% else %}
-		<p class="tm-muted">Назначенных переездов нет.</p>
+		<p class="tm-muted">No moves assigned.</p>
 	{% endfor %}
 
 	{% if past %}
-		<h2>Прошедшие</h2>
+		<h2>Past Moves</h2>
 		{% for d in past %}{{ deal_card(d) }}{% endfor %}
 	{% endif %}
 </div>

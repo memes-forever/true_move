@@ -16,7 +16,7 @@ no_cache = 1
 def get_context(context):
 	require_login("/moves")
 
-	context.title = "Мои переезды"
+	context.title = "My Moves"
 	context.show_sidebar = False
 	context.upcoming, context.past = [], []
 

@@ -45,7 +45,7 @@ bench restart
 ```
 
 `migrate` применяет патчи из `true_move/patches.txt` и fixtures из `true_move/fixtures/`
-(кастомные поля, Property Setter, раскладки CRM, роль «Грузчик»).
+(кастомные поля, Property Setter, раскладки CRM, роль Mover).
 
 ### Contributing
 

@@ -5,17 +5,17 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
-MOVER_ROLE = "Грузчик"
+MOVER_ROLE = "Mover"
 
 
 class Mover(Document):
 	def validate(self):
 		if self.user and MOVER_ROLE not in frappe.get_roles(self.user):
-			frappe.throw(_("У пользователя {0} нет роли «{1}»").format(self.user, MOVER_ROLE))
+			frappe.throw(_("User {0} does not have the {1} role").format(self.user, MOVER_ROLE))
 
 
 def sync_mover_for_user(user, method=None):
-	"""User.on_update: у пользователя с ролью «Грузчик» всегда есть активная запись Mover,
+	"""User.on_update: у пользователя с ролью Mover всегда есть активная запись Mover,
 	без роли — запись отключается (не удаляется: на неё ссылаются сделки)."""
 	has_role = MOVER_ROLE in {r.role for r in user.get("roles", [])}
 	mover = frappe.db.get_value("Mover", {"user": user.name}, ["name", "enabled"], as_dict=True)
@@ -38,5 +38,5 @@ def unlink_mover_from_user(user, method=None):
 
 
 def get_session_movers() -> list[str]:
-	"""Записи «Грузчик», привязанные к текущему пользователю."""
+	"""Записи Mover, привязанные к текущему пользователю."""
 	return frappe.get_all("Mover", filters={"user": frappe.session.user, "enabled": 1}, pluck="name")

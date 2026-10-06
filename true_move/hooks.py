@@ -15,7 +15,7 @@ add_to_apps_screen = [
 	{
 		"name": "true_move",
 		"logo": "/assets/true_move/images/moves.svg",
-		"title": "Переезды",
+		"title": "Moves",
 		"route": "/moves",
 		"has_permission": "true_move.mover_portal.has_app_permission",
 	}
@@ -275,16 +275,16 @@ fixtures = [
 	# раскладка полей (Quick Entry, Side Panel, Data Fields...) и свои JS-скрипты форм/списков
 	"CRM Fields Layout",
 	{"dt": "CRM Form Script", "filters": [["is_standard", "=", 0]]},
-	{"dt": "Role", "filters": [["name", "=", "Грузчик"]]},
+	{"dt": "Role", "filters": [["name", "=", "Mover"]]},
 ]
 
 # После входа грузчик попадает на мобильную страницу /moves со своими переездами (сделками).
-# Прав на CRM Deal у роли «Грузчик» нет: страница /moves сама отбирает только его сделки.
+# Прав на CRM Deal у роли Mover нет: страница /moves сама отбирает только его сделки.
 role_home_page = {
-	"Грузчик": "moves",
+	"Mover": "moves",
 }
 
-# Роль «Грузчик» у пользователя ⇒ запись в справочнике Mover (её и выбирают в сделке)
+# Роль Mover у пользователя ⇒ запись в справочнике Mover (её и выбирают в сделке)
 doc_events = {
 	"User": {
 		"on_update": "true_move.true_move.doctype.mover.mover.sync_mover_for_user",

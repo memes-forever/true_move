@@ -1,13 +1,13 @@
 """Общий код страниц грузчика (www/moves).
 
-У роли «Грузчик» нет прав на CRM Deal, поэтому данные читаются без проверки прав,
+У роли Mover нет прав на CRM Deal, поэтому данные читаются без проверки прав,
 но строго по сделкам, где назначен грузчик текущего пользователя.
 """
 
 import frappe
 from frappe.utils import format_datetime
 
-from true_move.true_move.doctype.mover.mover import get_session_movers
+from true_move.true_move.doctype.mover.mover import MOVER_ROLE, get_session_movers
 
 
 def require_login(redirect_to: str):
@@ -17,8 +17,8 @@ def require_login(redirect_to: str):
 
 
 def has_app_permission() -> bool:
-	"""Плитка «Переезды» на /desk: грузчикам и администраторам."""
-	return bool({"Грузчик", "System Manager"} & set(frappe.get_roles()))
+	"""Плитка Moves на /desk: грузчикам и администраторам."""
+	return bool({MOVER_ROLE, "System Manager"} & set(frappe.get_roles()))
 
 
 def get_status_colors() -> dict[str, str]:
@@ -40,6 +40,6 @@ def get_customer(deal) -> frappe._dict:
 
 
 def format_move_date(value) -> str:
-	return format_datetime(value, "dd.MM.yyyy HH:mm") if value else "Дата не назначена"
+	return format_datetime(value, "MM/dd/yyyy h:mm a") if value else "Date not set"
 
 
