@@ -16,6 +16,11 @@ def require_login(redirect_to: str):
 		raise frappe.Redirect
 
 
+def has_app_permission() -> bool:
+	"""Плитка «Переезды» на /desk: грузчикам и администраторам."""
+	return bool({"Грузчик", "System Manager"} & set(frappe.get_roles()))
+
+
 def get_status_colors() -> dict[str, str]:
 	return dict(frappe.get_all("CRM Deal Status", fields=["name", "color"], as_list=True))
 

@@ -58,6 +58,11 @@ if ! grep -qx "$MY_APP" sites/apps.txt; then
     sed -i -e '$a\' sites/apps.txt   # гарантировать перевод строки в конце
     echo "$MY_APP" >> sites/apps.txt
 fi
+# Статика приложения (/assets/$MY_APP/...) — симлинк на public/ создаёт bench build
+if [ ! -e "sites/assets/$MY_APP" ]; then
+    echo ">>> Собираю ассеты $MY_APP..."
+    bench build --app "$MY_APP"
+fi
 
 # 4. Сайт
 if [ ! -f "$BENCH/sites/$SITE/site_config.json" ]; then

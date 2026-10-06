@@ -10,16 +10,16 @@ app_license = "mit"
 
 required_apps = ["frappe/crm"]
 
-# Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "true_move",
-# 		"logo": "/assets/true_move/logo.png",
-# 		"title": "True Move",
-# 		"route": "/true_move",
-# 		"has_permission": "true_move.api.permission.has_app_permission"
-# 	}
-# ]
+# Плитка на /desk (экран приложений): ведёт на мобильную страницу грузчика
+add_to_apps_screen = [
+	{
+		"name": "true_move",
+		"logo": "/assets/true_move/images/moves.svg",
+		"title": "Переезды",
+		"route": "/moves",
+		"has_permission": "true_move.mover_portal.has_app_permission",
+	}
+]
 
 # Includes in <head>
 # ------------------
