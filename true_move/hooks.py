@@ -43,7 +43,7 @@ add_to_apps_screen = [
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"CRM Deal": "public/js/crm_deal.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -289,5 +289,8 @@ doc_events = {
 	"User": {
 		"on_update": "true_move.true_move.doctype.mover.mover.sync_mover_for_user",
 		"on_trash": "true_move.true_move.doctype.mover.mover.unlink_mover_from_user",
+	},
+	"CRM Deal": {
+		"before_validate": "true_move.crm_deal.drop_empty_move_items",
 	},
 }

@@ -10,15 +10,17 @@
   "item_name",
   "qty",
   "fragile",
-  "notes"
+  "notes",
+  "delete_row"
  ],
  "fields": [
   {
    "columns": 4,
    "fieldname": "item_name",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "\u041f\u0440\u0435\u0434\u043c\u0435\u0442",
+   "label": "Item",
+   "options": "Inventory Item",
    "reqd": 1
   },
   {
@@ -27,7 +29,7 @@
    "fieldname": "qty",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "\u041a\u043e\u043b-\u0432\u043e",
+   "label": "Qty",
    "non_negative": 1
   },
   {
@@ -36,21 +38,28 @@
    "fieldname": "fragile",
    "fieldtype": "Check",
    "in_list_view": 1,
-   "label": "\u0425\u0440\u0443\u043f\u043a\u043e\u0435"
+   "label": "Fragile"
   },
   {
-   "columns": 4,
+   "columns": 3,
    "fieldname": "notes",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "\u041f\u0440\u0438\u043c\u0435\u0447\u0430\u043d\u0438\u0435"
+   "label": "Notes"
+  },
+  {
+   "columns": 1,
+   "fieldname": "delete_row",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Delete"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-10-01 15:32:56.518500",
+ "modified": "2026-10-06 17:40:34.312912",
  "modified_by": "Administrator",
  "module": "True Move",
  "name": "Move Item",

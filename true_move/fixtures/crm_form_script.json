@@ -1,1 +1,13 @@
-[]
+[
+ {
+  "docstatus": 0,
+  "doctype": "CRM Form Script",
+  "dt": "CRM Deal",
+  "enabled": 1,
+  "is_standard": 0,
+  "modified": "2026-10-06 10:49:28.385118",
+  "name": "Inventory Row Delete",
+  "script": "// Кнопка удаления в строке Inventory (поле delete_row в Move Item)\nclass CRMDeal {\n  onLoad() {\n    // иконку кнопке задать нельзя (ButtonControl в CRM её не передаёт), поэтому символ корзины в подписи\n    this.setFieldProperty('custom_move_items.delete_row', 'label', '\\u{1F5D1}')\n  }\n}\n\nclass MoveItem {\n  delete_row() {\n    const rows = (this.doc.custom_move_items || []).filter((r) => r.idx !== this.currentRowIdx)\n    rows.forEach((r, i) => (r.idx = i + 1))\n    this.doc.custom_move_items = rows\n  }\n}\n",
+  "view": "Form"
+ }
+]
