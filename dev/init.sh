@@ -40,17 +40,21 @@ if [ ! -d "$BENCH/apps/crm" ]; then
     bench get-app crm --branch "$CRM_BRANCH"
 fi
 
-# 3a. Своё приложение: код лежит на Mac в ./apps/$MY_APP (/workspace/apps/$MY_APP),
-#     в bench — симлинк на него. Не bind mount: шаг 1 делает rm -rf "$BENCH".
+# 3a. Своё приложение: корень репозитория на Mac (/workspace), в bench — симлинк на него.
+#     Не bind mount: шаг 1 делает rm -rf "$BENCH".
 if [ -d "apps/$MY_APP" ] && [ ! -L "apps/$MY_APP" ]; then
     echo ">>> Убираю старую копию $MY_APP из тома в $BENCH_ROOT/$MY_APP.bak"
     rm -rf "$BENCH_ROOT/$MY_APP.bak"
     mv "apps/$MY_APP" "$BENCH_ROOT/$MY_APP.bak"
 fi
-ln -sfn "/workspace/apps/$MY_APP" "apps/$MY_APP"
+ln -sfn /workspace "apps/$MY_APP"
+# Переустановить пакет, если editable-установка смотрит в старый путь (или её нет)
+if ! ./env/bin/python -c "import $MY_APP" 2>/dev/null; then
+    echo ">>> Устанавливаю пакет $MY_APP..."
+    ./env/bin/pip install -q -e "apps/$MY_APP"
+fi
 if ! grep -qx "$MY_APP" sites/apps.txt; then
     echo ">>> Регистрирую $MY_APP..."
-    ./env/bin/pip install -q -e "apps/$MY_APP"
     sed -i -e '$a\' sites/apps.txt   # гарантировать перевод строки в конце
     echo "$MY_APP" >> sites/apps.txt
 fi

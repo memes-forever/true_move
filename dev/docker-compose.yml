@@ -36,7 +36,7 @@ services:
   frappe:
     image: frappe/bench:latest
     restart: unless-stopped
-    command: bash /workspace/init.sh
+    command: bash /workspace/dev/init.sh
     environment:
       - SHELL=/bin/bash
     working_dir: /home/frappe/bench-data
@@ -48,9 +48,8 @@ services:
       fix-perms:
         condition: service_completed_successfully
     volumes:
-      - .:/workspace
+      - ..:/workspace                        # корень репозитория = приложение true_move, init.sh делает на него симлинк
       - bench-data:/home/frappe/bench-data   # код bench и приложений переживает пересоздание контейнера
-                                             # своё приложение — в ./apps (на Mac), init.sh делает на него симлинк
     ports:
       - 8000:8000   # веб-интерфейс
       - 9000:9000   # socket.io (realtime)

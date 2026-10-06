@@ -1,119 +1,60 @@
-# Frappe CRM — локальная разработка в Docker
+### True Move
 
-Стек: Frappe Framework **v16** (Python 3.14, Node 24) + Frappe CRM (`main`), MariaDB 11.8, Redis.
+Доработки Frappe CRM для True Move: справочник грузчиков (Mover), состав переезда (Move Item),
+мобильная страница грузчика `/moves`, кастомные поля и раскладки форм CRM (fixtures).
 
-## Структура
+Требует: Frappe Framework **v16** + [Frappe CRM](https://github.com/frappe/crm).
 
-```
-frappe-crm/                 ← единый git-репозиторий: инфраструктура + приложение
-├── docker-compose.yml
-├── init.sh
-└── apps/
-    └── true_move/           ← своё приложение
-```
+Локальная разработка в Docker — см. [dev/README.md](dev/README.md).
 
-- **frappe** и **crm** — чужой код, лежит в docker-томе `bench-data`, не редактируем.
-- **true_move** — весь свой код. Лежит на Mac, в контейнере `apps/true_move` — симлинк на `/workspace/apps/true_move`.
-  Всё, что Frappe генерирует в developer_mode (doctype JSON/py/js), сразу появляется здесь.
-- `bench get-app <git-url>` ожидает приложение в корне репозитория. Для установки на сервер
-  выделяйте его в отдельную ветку: `git subtree split --prefix=apps/true_move -b true_move-release`
-  и ставьте с неё (или пушьте эту ветку в отдельный репозиторий).
+### Установка на сервер
 
-## Что нужно
-
-- Docker Desktop для Mac, в настройках ресурсов не меньше **4 ГБ RAM** (лучше 6).
-- Порты 8000 и 9000 должны быть свободны.
-
-## Запуск
+Предполагается, что bench уже установлен ([инструкция](https://docs.frappe.io/framework/user/en/installation)).
 
 ```bash
-cd /Users/vlad/america/frappe-crm
-docker compose up -d
-docker compose logs -f frappe      # первый запуск 10–20 минут: клонирование и сборка фронта
+bench init --frappe-branch version-16 --python python3.14 frappe-bench
+cd frappe-bench
+
+bench get-app crm --branch main
+bench get-app https://github.com/memes-forever/true_move --branch main
+
+bench new-site crm.example.com
+bench --site crm.example.com install-app crm
+bench --site crm.example.com install-app true_move
+
+sudo bench setup production $USER      # nginx + supervisor
 ```
 
-Когда в логах появится `Готово`, а затем строки `web.1 | * Running on ...`, открывайте:
+Если репозиторий приватный, серверу нужен доступ к GitHub: deploy key
+(`git@github.com:memes-forever/true_move.git`) или токен в URL.
 
-- **CRM:** http://localhost:8000/crm
-- **Desk (админка Frappe):** http://localhost:8000/app
-
-Логин: `Administrator`, пароль: `admin`.
-
-## Повседневные команды
+### Обновление
 
 ```bash
-docker compose stop                      # остановить (данные сохраняются)
-docker compose start                     # запустить снова (быстро, без переустановки)
-docker compose exec frappe bash          # консоль внутри контейнера
-# внутри: cd frappe-bench && bench --site crm.localhost console   — Python-консоль сайта
-docker compose down -v                   # ПОЛНЫЙ сброс: удалит БД и весь код bench
+cd frappe-bench
+bench update --apps true_move    # бэкап, git pull, migrate (patches + fixtures), build, restart
 ```
 
-Если первый запуск упал (например, обрыв сети), просто `docker compose restart frappe`:
-скрипт `init.sh` пропускает уже выполненные шаги.
+Или вручную:
 
-## Первый свой DocType
-
-Правильно держать доработки в **своём приложении**, а не править код CRM.
-
-### 1. Приложение
-
-Уже есть: `apps/true_move` (модуль `True Move`). `init.sh` само регистрирует и ставит его на сайт,
-в том числе после полного сброса `down -v`.
-
-### 2. Создать DocType через интерфейс
-
-1. Откройте http://localhost:8000/app/doctype/new
-2. Name: в единственном числе, например `Contract`, **Module:** `True Move`.
-3. Добавьте поля, например:
-   - `contract_number` — Data, обязательное;
-   - `deal` — Link → `CRM Deal`;
-   - `amount` — Currency;
-   - `status` — Select (`Draft`, `Signed`, `Closed`);
-   - `signed_on` — Date.
-4. Сохраните.
-
-Благодаря `developer_mode` Frappe сразу создаст:
-
-- таблицу `tabContract` в БД;
-- файлы в `apps/true_move/true_move/true_move/doctype/contract/` (`contract.json`, `contract.py`, `contract.js`);
-- форму и список в Desk: http://localhost:8000/app/contract;
-- REST API: `GET/POST http://localhost:8000/api/resource/Contract`.
-
-### 3. Добавить логику
-
-В `contract.py`:
-
-```python
-import frappe
-from frappe.model.document import Document
-
-class Contract(Document):
-    def validate(self):
-        if self.status == "Signed" and not self.signed_on:
-            frappe.throw("Укажите дату подписания")
+```bash
+cd apps/true_move && git pull && cd ../..
+bench --site crm.example.com migrate
+bench build --app true_move
+bench restart
 ```
 
-После правки Python-кода: `bench restart` не нужен в dev-режиме, достаточно обновить страницу.
-Если меняли JSON/схему вручную: `bench --site crm.localhost migrate`.
+`migrate` применяет патчи из `true_move/patches.txt` и fixtures из `true_move/fixtures/`
+(кастомные поля, Property Setter, раскладки CRM, роль «Грузчик»).
 
-### Где редактировать код
+### Contributing
 
-Свой код открывайте прямо на Mac: `apps/true_move`. Коммиты делайте из корня проекта.
-Чтобы почитать исходники frappe/crm или получить автодополнение по ним, используйте VS Code **Dev Containers** →
-«Attach to Running Container» → `crm-frappe-1`.
+This app uses `pre-commit` for code formatting and linting:
 
-## Правила
+```bash
+pre-commit install
+```
 
-1. Не правьте код `frappe` и `crm`: все изменения делайте в `true_move` (хуки, override, свои doctype).
-2. Изменения через **Customize Form** (поля в `CRM Deal`, `CRM Lead` и т.д.) хранятся в БД, не в коде.
-   Выставляйте у них Module = `True Move` и выгружайте в репозиторий:
-   `bench --site crm.localhost export-fixtures --app true_move` → `true_move/fixtures/*.json`.
-3. Server Script / Client Script из интерфейса удобны для экспериментов, а окончательный код переносите в приложение.
-4. Изменения в данных между версиями оформляйте патчами (`true_move/patches.txt`).
+### License
 
-## Что дальше
-
-- Кастомные поля к сделкам и лидам: в Desk через **Customize Form** (`CRM Deal`, `CRM Lead`), см. правило 2.
-- Свои объекты пока видны в Desk (`/app/...`), а не в Vue-интерфейсе CRM; встраивать их туда — отдельная доработка фронтенда.
-- Хуки на события CRM (`doc_events` для `CRM Deal` и др.) — в `true_move/hooks.py`.
+mit
