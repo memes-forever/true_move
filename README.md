@@ -5,17 +5,19 @@
 ## Структура
 
 ```
-frappe-crm/                 ← git-репозиторий инфраструктуры (compose, init.sh, README)
+frappe-crm/                 ← единый git-репозиторий: инфраструктура + приложение
 ├── docker-compose.yml
 ├── init.sh
 └── apps/
-    └── true_move/           ← своё приложение, ОТДЕЛЬНЫЙ git-репозиторий (в корневом — в .gitignore)
+    └── true_move/           ← своё приложение
 ```
 
 - **frappe** и **crm** — чужой код, лежит в docker-томе `bench-data`, не редактируем.
 - **true_move** — весь свой код. Лежит на Mac, в контейнере `apps/true_move` — симлинк на `/workspace/apps/true_move`.
   Всё, что Frappe генерирует в developer_mode (doctype JSON/py/js), сразу появляется здесь.
-- Приложение — отдельный репозиторий, потому что на сервер его ставят `bench get-app <git-url>`.
+- `bench get-app <git-url>` ожидает приложение в корне репозитория. Для установки на сервер
+  выделяйте его в отдельную ветку: `git subtree split --prefix=apps/true_move -b true_move-release`
+  и ставьте с неё (или пушьте эту ветку в отдельный репозиторий).
 
 ## Что нужно
 
@@ -97,7 +99,7 @@ class Contract(Document):
 
 ### Где редактировать код
 
-Свой код открывайте прямо на Mac: `apps/true_move`. Коммиты делайте в этом же каталоге (`cd apps/true_move && git ...`).
+Свой код открывайте прямо на Mac: `apps/true_move`. Коммиты делайте из корня проекта.
 Чтобы почитать исходники frappe/crm или получить автодополнение по ним, используйте VS Code **Dev Containers** →
 «Attach to Running Container» → `crm-frappe-1`.
 
