@@ -1,0 +1,15 @@
+[
+ {
+  "desk_access": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Role",
+  "home_page": null,
+  "is_custom": 0,
+  "modified": "2026-10-01 15:12:16.223646",
+  "name": "Грузчик",
+  "restrict_to_domain": null,
+  "role_name": "Грузчик",
+  "two_factor_auth": 0
+ }
+]

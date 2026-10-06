@@ -1,0 +1,30 @@
+{% extends "templates/web.html" %}
+
+{% macro deal_card(d) %}
+<a class="tm-card" href="/moves/deal?name={{ d.name | urlencode }}">
+	<div class="tm-row">
+		<span class="tm-date">{{ d.move_date_display }}</span>
+		<span class="tm-badge c-{{ d.status_color }}">{{ _(d.status) }}</span>
+	</div>
+	<div>{{ d.customer.name or d.name }}</div>
+	<div class="tm-muted">{{ d.custom_from_address or "—" }} → {{ d.custom_to_address or "—" }}</div>
+</a>
+{% endmacro %}
+
+{% block page_content %}
+{% include "templates/includes/mover_styles.html" %}
+<div class="tm">
+	<h1>Мои переезды</h1>
+
+	{% for d in upcoming %}
+		{{ deal_card(d) }}
+	{% else %}
+		<p class="tm-muted">Назначенных переездов нет.</p>
+	{% endfor %}
+
+	{% if past %}
+		<h2>Прошедшие</h2>
+		{% for d in past %}{{ deal_card(d) }}{% endfor %}
+	{% endif %}
+</div>
+{% endblock %}
