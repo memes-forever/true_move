@@ -1,5 +1,5 @@
-# Frappe CRM — локальная среда разработки (Frappe v16 + CRM main)
-name: crm
+# True Move — локальная среда разработки (Frappe v16 + CRM main + true_move)
+name: true_move
 
 services:
   mariadb:

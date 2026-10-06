@@ -18,6 +18,7 @@ true_move/                  ← git-репозиторий = Frappe-прилож
 - **true_move** — весь свой код. Лежит на Mac, в контейнере `apps/true_move` — симлинк на корень репозитория (`/workspace`).
   Всё, что Frappe генерирует в developer_mode (doctype JSON/py/js), сразу появляется здесь.
 - Установка на сервер — см. корневой [README](../README.md).
+- Локальный venv и интерпретатор для PyCharm — см. [PYCHARM.md](PYCHARM.md).
 
 ## Что нужно
 
@@ -27,7 +28,7 @@ true_move/                  ← git-репозиторий = Frappe-прилож
 ## Запуск
 
 ```bash
-cd /Users/vlad/america/frappe-crm/dev
+cd dev                             # из корня репозитория
 docker compose up -d
 docker compose logs -f frappe      # первый запуск 10–20 минут: клонирование и сборка фронта
 ```
@@ -102,8 +103,8 @@ class Contract(Document):
 ### Где редактировать код
 
 Свой код открывайте прямо на Mac: корень репозитория. Коммиты делайте оттуда же.
-Чтобы почитать исходники frappe/crm или получить автодополнение по ним, используйте VS Code **Dev Containers** →
-«Attach to Running Container» → `crm-frappe-1`.
+Автодополнение и исходники frappe/crm в IDE — через локальный venv, см. [PYCHARM.md](PYCHARM.md).
+Или VS Code **Dev Containers** → «Attach to Running Container» → `true_move-frappe-1`.
 
 ## Правила
 
