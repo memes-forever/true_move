@@ -1,0 +1,60 @@
+# Frappe CRM — локальная среда разработки (Frappe v16 + CRM main)
+name: crm
+
+services:
+  mariadb:
+    image: mariadb:11.8
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MARIADB_AUTO_UPGRADE: 1
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+  redis:
+    image: redis:8.6-alpine
+    restart: unless-stopped
+
+  # Однократно выдаёт пользователю frappe права на том с bench
+  fix-perms:
+    image: frappe/bench:latest
+    user: root
+    command: chown -R frappe:frappe /home/frappe/bench-data
+    volumes:
+      - bench-data:/home/frappe/bench-data
+
+  frappe:
+    image: frappe/bench:latest
+    restart: unless-stopped
+    command: bash /workspace/init.sh
+    environment:
+      - SHELL=/bin/bash
+    working_dir: /home/frappe/bench-data
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      fix-perms:
+        condition: service_completed_successfully
+    volumes:
+      - .:/workspace
+      - bench-data:/home/frappe/bench-data   # код bench и приложений переживает пересоздание контейнера
+                                             # своё приложение — в ./apps (на Mac), init.sh делает на него симлинк
+    ports:
+      - 8000:8000   # веб-интерфейс
+      - 9000:9000   # socket.io (realtime)
+
+volumes:
+  mariadb-data:
+  bench-data:
